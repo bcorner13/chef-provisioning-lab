@@ -1,7 +1,7 @@
 {
   "id": "myapp-vpc",
   "reference": {
-    "id": "vpc-d4cb5bb0"
+    "id": "vpc-9ffd6dfb"
   },
-  "driver_url": "aws::us-east-1"
+  "driver_url": "aws"
 }
