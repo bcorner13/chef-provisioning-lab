@@ -1,0 +1,7 @@
+{
+  "id": "myapp-public",
+  "reference": {
+    "id": "rtb-99004efd"
+  },
+  "driver_url": "aws::us-east-1"
+}
