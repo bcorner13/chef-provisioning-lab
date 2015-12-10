@@ -11,7 +11,7 @@ end
 
 my_sg = aws_security_group 'myapp-sg' do
     vpc lazy { my_vpc.aws_object_id }
-    inbound_rules '0.0.0.0/0' => [ 22, 80 ]
+    inbound_rules '0.0.0.0/0' => [ 22, 80, 3306 ]
 end
 
 my_subnet = aws_subnet 'myapp-public1' do
@@ -21,7 +21,7 @@ my_subnet = aws_subnet 'myapp-public1' do
     map_public_ip_on_launch true
 end
 
-machine 'webserver' do
+machine 'db' do
   machine_options(
     lazy do
       {
@@ -36,7 +36,31 @@ machine 'webserver' do
       }
     end
   )
+  recipe 'mydb'
+end
+machine 'webserver' do
+  machine_options(
+      lazy do
+ {
+   ssh_username: 'ec2-user',
+   bootstrap_options: {
+     key_name: 'provisioning_lab',
+     image_id: 'ami-60b6c60a',
+     instance_type: 't2.micro',
+     subnet_id: my_subnet.aws_object.id,
+     security_group_ids: [my_sg.aws_object.id]
+   }
+ }
+    end
+  )	
   recipe 'apache'
   recipe 'deploy'
 end
 
+
+ruby_block "print out public IP" do
+  block do
+    mywebserver = search(:node, "name:webserver").first
+    Chef::Log.info("Application can be accessed at http://#{mywebserver['ec2']['public_ipv4']}/mysite.php")
+  end
+end

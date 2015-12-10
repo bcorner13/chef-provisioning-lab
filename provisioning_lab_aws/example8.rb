@@ -40,3 +40,9 @@ machine 'webserver' do
   recipe 'deploy'
 end
 
+ruby_block "printIP" do
+  block do
+    mynode = search(:node, 'name:webserver').first
+    Chef::Log.info("Check your browser => http://#{mynode['ec2']['public_ipv4']}")
+  end
+end

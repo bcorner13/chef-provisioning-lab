@@ -1,0 +1,8 @@
+name 'mydb'
+maintainer 'The Authors'
+maintainer_email 'you@example.com'
+license 'all_rights'
+description 'Installs/Configures mydb'
+long_description 'Installs/Configures mydb'
+version '0.1.1'
+depends 'mysql', '~> 6.0'

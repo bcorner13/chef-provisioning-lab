@@ -14,10 +14,6 @@ package 'Install Apache' do
     end
 end
 
-file '/var/www/html/index.html' do
-    content '<HTML><BODY>Hello Class!</BODY></HTML>'
-end
-
 service 'apache_start' do
     case node[:platform]
     when 'redhat', 'centos', 'amazon'
